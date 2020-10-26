@@ -3,6 +3,7 @@ Zabbix上的YARN ResourceManager监控模板。
 •	支持监控YARN上的Application信息。
 •	在CentOS7，Zabbix5.0，Hadoop2.7.6下测试成功。
 •	ResourceManager进程重启或者处于Active状态的ResourceManager主机切换后数据会归零,可能首次需要重启两个yarn节点
+•   默认监控root.default队列中的任务
 使用方法
 在zabbix前端导入Template Cluster YARN ResourceManager.xml模板文件，链接该模板到ResourceManager主机上，并根据实际情况在继承以及主机宏这里修改三个宏参数：
 {$HADOOP_YARN_HOST} ResourceManager主机ip或者hostname
