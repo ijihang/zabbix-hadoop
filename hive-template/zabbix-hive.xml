@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-10-29T07:21:19Z</date>
+    <groups>
+        <group>
+            <name>Hadoop集群</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Cluster Hive</template>
+            <name>Template Cluster Hive</name>
+            <groups>
+                <group>
+                    <name>Hadoop集群</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Hive</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Hive可用性检查</name>
+                    <type>TRAP</type>
+                    <key>hive.availability.checking</key>
+                    <delay>0</delay>
+                    <status>DISABLED</status>
+                    <applications>
+                        <application>
+                            <name>Hive</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{avg(#3)}=0</expression>
+                            <name>Hive可用性检查</name>
+                            <status>DISABLED</status>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}=0</expression>
+                            <name>Hive可用性检查</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{nodata(180)}=1</expression>
+                            <name>Hive可用性检查-持续3分钟未接收到数据</name>
+                            <status>DISABLED</status>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Hive MetaStore端口监听状态</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.tcp.listen[9083]</key>
+                    <delay>30</delay>
+                    <history>10d</history>
+                    <applications>
+                        <application>
+                            <name>Hive</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}=0 and {nodata(30)}=0</expression>
+                            <name>Hive MetaStore默认端口[9083]未处于监听状态，请检查该服务运行状态或核对是否已修改hive metastore默认端口</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Hive Server2端口监听状态</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.tcp.listen[10000]</key>
+                    <delay>30</delay>
+                    <history>10d</history>
+                    <applications>
+                        <application>
+                            <name>Hive</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}=0 and {nodata(30)}=0</expression>
+                            <name>Hive Server2默认端口[10000]未处于监听状态，请检查该服务运行状态或核对是否已修改hiveserver2默认端口</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Hive进程的总CPU利用率</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.cpu.util[,hive,,hive]</key>
+                    <delay>30</delay>
+                    <history>10d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <applications>
+                        <application>
+                            <name>Hive</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Hive进程总数量</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[,hive,,hive]</key>
+                    <delay>30</delay>
+                    <history>10d</history>
+                    <applications>
+                        <application>
+                            <name>Hive</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+        </template>
+    </templates>
+</zabbix_export>
